@@ -63,11 +63,24 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+        // create an api_token and a remember_token
+        $api_token = "";
+        $allowedchars = "qwertyuiopasdfghjklzxcvbnm1234567890";
+        for ($i=0; $i < 60; $i++) { 
+            $api_token = $api_token . $allowedchars[rand(0,strlen($allowedchars)- 1)];
+        }
+        $remember_token = "";
+        for ($i=0; $i < 100; $i++) { 
+            $remember_token = $remember_token . $allowedchars[rand(0, strlen($allowedchars) -1)];
+        }
+        // now api_token contains a random string.
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'address' => $data['address']
+            'address' => $data['address'],
+            'api_token' => $api_token,
+            'remember_token' => $remember_token
         ]);
     }
 }
