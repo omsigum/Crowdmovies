@@ -21,6 +21,9 @@ class CreateSubmissionTable extends Migration {
 			$table->timestamp('submitted')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->dateTime('showtime')->nullable();
 			$table->integer('price')->nullable();
+			$table->string('moviename');
+			$table->string('posterUrl');
+			$table->string('imdbRating');
 		});
 	}
 

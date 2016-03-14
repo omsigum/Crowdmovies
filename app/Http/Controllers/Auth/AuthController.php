@@ -78,7 +78,6 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'address' => $data['address'],
             'api_token' => $api_token,
             'remember_token' => $remember_token
         ]);

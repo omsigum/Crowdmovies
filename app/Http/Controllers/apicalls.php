@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+// theese two are required for the use of buzz http library
+require('../vendor/autoload.php');
+use Buzz;
+
 
 use Illuminate\Http\Request;
 use DB;
@@ -9,7 +13,8 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class apicalls extends Controller
-{    
+{
+
 	public function addmovie(Request $request){
 		// get like the data from like the user u know
 		$input = $request -> all();
@@ -32,11 +37,20 @@ class apicalls extends Controller
 		}
 		else{
 		$uuid1 = Uuid::uuid1();
-		$ouput = substr($imdblink, $index, 9);
-		// return $ouput;
+		$output = substr($imdblink, $index, 9);
+		// return $output;
 		// insert like u know data into u know like a database
+
+		// get basic information from the omdb. The information we sotre in the database is just information that we display on the front page
+		// this is to save the time it takes to display the front page
+		$request = new Buzz\Message\Request('GET', '/', 'http://www.omdbapi.com/?i='.$output.'&tomatoes=true');
+		$response = new Buzz\Message\Response();
+		$client = new Buzz\Client\FileGetContents();
+		$client -> send($request,$response);
+		$thing = json_decode($response);
+		//return $thing -> imdbRating;
 		DB::table('submission')->insert([ // okei okei, he is like just inserting you know
-    	['userID' => $userid, 'IMDB' => $ouput, 'ID' => $uuid1] // that is not code i have ever seen before...
+    	['userID' => $userid, 'IMDB' => $output, 'ID' => $uuid1, 'moviename' => $thing -> Title, 'posterUrl' => $thing -> Poster, 'imdbRating' => $thing -> imdbRating] // that is not code i have ever seen before...
 		]);
 		return 1;
 	}

@@ -10,7 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-// returns the welcome page
+// returns the welcome page This is the only page that is not affected by the auth controller 
+// all other pages that do not need authentication have to be added straight into the routes file
 Route::get('/', function () {
     return view('welcome');
 });
