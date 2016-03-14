@@ -15,16 +15,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 // auth controller
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get('/addmovie','HomeController@serveaddmovie');
     Route::get('/home', 'HomeController@index');
 });
-
 Route::group(['prefix' => 'api/', 'middleware' => 'auth:api'], function(){
 	// thesse routes are protected by the api_token. how ever the api_token is not being created when a user is created even though it was added to the modelfactory. users that are randomly generated however do get the api_token. 
 	Route::post('addmovie', 'apicalls@addmovie');
 });
+Route::post('api/fetchmovies','apicalls@fetchmovies');
