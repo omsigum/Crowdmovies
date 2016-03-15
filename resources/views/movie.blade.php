@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="headerImage">
+<div class="headerImage" style="background-image: url('{{ $movies -> banner }}');">
 	<div class="overlay">
 
 	</div>
@@ -16,10 +16,9 @@
 		<div class="tab-content">
 			<div id="info" class="tab-pane fade in active">
 				<div class="movieContainer">
-					<img src="http://img.omdbapi.com/?apikey=899eace9&i=tt1856010&h=300">
+					<img id="poster"src="">				<!-- Here comes the link-->
 					<div class="movieInfo">
 						<div class="movieTitle">
-							House of Cards
 						</div>
 
 						<div>
@@ -70,18 +69,18 @@
 			Once the film has been approved for showing tickets will be sold here
 		</div>
 		<hr>
-
 	</div>
 <div class="padding"></div>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript">
 	var movie = {};
-	$.getJSON('http://www.omdbapi.com/?i=tt1856010&plot=long&r=json', function(data) {
+	$.getJSON('http://www.omdbapi.com/?i=<?php echo $movies -> IMDB ?>&plot=long&r=json', function(data) {
 		console.log(data);
 		$('.overlay').text(data.Title);
 		$('.movieDescription').text(data.Plot);
 		$('.movieCast').text(data.Actors);
-
+		$('#poster').attr('src',data.Poster);
+		$('.movieTitle').text(data.Title);
 	});
 </script>

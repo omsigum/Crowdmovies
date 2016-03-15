@@ -94,6 +94,7 @@ hr {
 }
 .image img{
 	border-radius: 5px;
+  height: 250px;
 }
 .image:hover:after {
     opacity: 1;

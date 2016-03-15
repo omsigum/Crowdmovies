@@ -12,20 +12,24 @@
 */
 // returns the welcome page This is the only page that is not affected by the auth controller 
 // all other pages that do not need authentication have to be added straight into the routes file
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/movie/test', function () {
-    return view('movie');
-});
+
 // auth controller
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get('/addmovie','HomeController@serveaddmovie');
-    Route::get('/home', 'HomeController@index');
+    Route::get('/','basicroutes@welcome');
+    Route::get('/movie/{id}', 'basicroutes@specificmovie');
+    // Route::get('/home', 'HomeController@index');
 });
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/','basicroutes@welcome');
+    Route::get('/movie/{id}', 'basicroutes@specificmovie');
+    // Route::get('/home', 'HomeController@index');
+});
+//Route::get('/','basicroutes@welcome');
 Route::group(['prefix' => 'api/', 'middleware' => 'auth:api'], function(){
 	// thesse routes are protected by the api_token. how ever the api_token is not being created when a user is created even though it was added to the modelfactory. users that are randomly generated however do get the api_token. 
 	Route::post('addmovie', 'apicalls@addmovie');
 });
 Route::post('api/fetchmovies','apicalls@fetchmovies');
+

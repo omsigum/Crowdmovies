@@ -24,6 +24,7 @@ class CreateSubmissionTable extends Migration {
 			$table->string('moviename');
 			$table->string('posterUrl');
 			$table->string('imdbRating');
+			$table->string('banner');
 		});
 	}
 

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ef63ed006f47489357758610b367b70f",
-    "content-hash": "b1e7c54c49d1a532cc70ab17598db884",
+    "hash": "defebb5bd6c4b953160f3cc8029cc45e",
+    "content-hash": "b73bc7db7868f67c6f43b29f5fd5cdae",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1844,6 +1844,56 @@
                 "dump"
             ],
             "time": "2016-02-13 09:23:44"
+        },
+        {
+            "name": "vinelab/http",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Vinelab/http.git",
+                "reference": "9231176e7bb1fcc683904ab781f2f033c47333ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Vinelab/http/zipball/9231176e7bb1fcc683904ab781f2f033c47333ca",
+                "reference": "9231176e7bb1fcc683904ab781f2f033c47333ca",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Vinelab\\Http": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abed Halawi",
+                    "email": "abed.halawi@vinelab.com"
+                }
+            ],
+            "description": "An http library developed for the laravel framework. aliases itself as HttpClient",
+            "keywords": [
+                "api",
+                "client",
+                "curl",
+                "http",
+                "json",
+                "laravel",
+                "xml"
+            ],
+            "time": "2015-02-26 17:08:05"
         },
         {
             "name": "vlucas/phpdotenv",

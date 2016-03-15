@@ -1,13 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-// theese two are required for the use of buzz http library
-require('../vendor/autoload.php');
-use Buzz;
-
-
 use Illuminate\Http\Request;
 use DB;
+use Vinelab\Http\Client as HttpClient;
 use App\Http\Requests;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
@@ -20,7 +16,7 @@ class apicalls extends Controller
 		$input = $request -> all();
 		$userid = DB::table('users')->where('api_token', $input['api_token'])->value('ID');; // i dont even have a clue how to get this
 		if (isset($userid)) {
-			$imdblink = $input['link']; // it could be something like $_POST['imdb']; but no... lets not do that
+			$imdblink = $input['link']; // it could be somejsonresponse like $_POST['imdb']; but no... lets not do that
 			$oldletter = "";
 			$index = 0;
 			$idfound = false;
@@ -36,31 +32,41 @@ class apicalls extends Controller
 			if ($idfound) {
 				$uuid1 = Uuid::uuid1();
 				$output = substr($imdblink, $index, 9);
-				// get basic information from the omdb. The information we sotre in the database is just information that we display on the front page
-				// this is to save the time it takes to display the front page
-				$request = new Buzz\Message\Request('GET', '/', 'http://www.omdbapi.com/?i='.$output.'&tomatoes=true');
-				$response = new Buzz\Message\Response();
-				$client = new Buzz\Client\FileGetContents();
-				$client -> send($request,$response);
-				if (isset($response)) {
-					$thing = json_decode($response);
-					//return $thing -> imdbRating;
-					DB::table('submission')->insert([ // okei okei, he is like just inserting you know
-			    	['userID' => $userid, 'IMDB' => $output, 'ID' => $uuid1, 'moviename' => $thing -> Title, 'posterUrl' => $thing -> Poster, 'imdbRating' => $thing -> imdbRating] // that is not code i have ever seen before...
-					]);
-					return 1;
+
+				$client = new HttpClient;
+				$response = $client->get('http://www.omdbapi.com/?i='.$output.'&tomatoes=true');
+				
+
+				$client = new HttpClient;
+				$response2 = $client->get('http://api.themoviedb.org/3/find/'.$output.'?external_source=imdb_id&api_key=5d81354b9914da922744f60e566d30b0');
+				
+				if (isset($response) && isset($response)) {
+					$jsonresponse2 = $response2->json();
+					$jsonresponse = $response->json();
+					//return json_encode($jsonresponse2);
+					if ($jsonresponse -> Response == 'True') {
+						$banner = 'http://image.tmdb.org/t/p/w500/'. $jsonresponse2 -> movie_results[0] -> backdrop_path;
+						DB::table('submission')->insert([ // okei okei, he is like just inserting you know
+				    	['userID' => $userid, 'IMDB' => $output, 'ID' => $uuid1, 'moviename' => $jsonresponse -> Title, 'posterUrl' => $jsonresponse -> Poster, 'imdbRating' => $jsonresponse -> imdbRating, 'banner' => $banner] // that is not code i have ever seen before...
+						]);
+						return 1;
 					}
 					else{
-						return 0;
+						// omdb returns but returns an error or movie api
+						return $jsonresponse -> Error;
+					}
+					}
+					else{
+						return '{"sucess":"false","ex":"unable to get response from omdb"}';
 					}
 				}
 			else{
-				return 0;
+				return '{"sucess":"false","ex":"Movie id not found in string"}';
 			}
 		
 		}
 		else{
-				return 0;
+				return '{"sucess":"false","ex":"userid not set"}';
 			}
 	}
 	public function deletemovie(){
@@ -71,7 +77,6 @@ class apicalls extends Controller
 	}
 	public function fetchmovies(){
 		// get the movies from the database this takes no arguments and fetches all the movies
-		// $users = DB::table('users')->select('name', 'email as user_email')->get();
 		$movies = DB::table('submission') -> select('moviename as name','posterUrl', 'imdbRating','ID','IMDB') -> get();
 		return json_encode($movies);
 	}

@@ -8,7 +8,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "ramsey/uuid": "^3.2",
-        "kriswallsmith/buzz": "^0.15.0"
+        "vinelab/http": "^1.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
