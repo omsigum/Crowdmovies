@@ -15,6 +15,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/movie/test', function () {
+    return view('movie');
+});
 // auth controller
 Route::group(['middleware' => 'web'], function () {
     Route::auth();

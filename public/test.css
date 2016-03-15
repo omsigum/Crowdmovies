@@ -1,0 +1,102 @@
+@import url(https://fonts.googleapis.com/css?family=Arimo|Roboto:400,300,200,100);
+.headerImage{
+	width:100%;
+	height:600px;
+	background-image: url("img/hoc-cover.jpg");
+	background-attachment: fixed;
+    background-position:bottom center;
+    background-size: cover;
+    position: relative;
+}
+.overlay{
+	color: white;
+    background-color: rgba(0, 0, 0, 0.50);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 8em;
+    font-family: Roboto;
+    font-weight: 100;
+}
+.navbar-default{
+	margin-bottom:0;
+	padding-bottom: 4px;
+}
+.padding{
+	height:400vh;
+}
+.container{
+	margin-top: 10px;
+}
+
+.side{
+	font-size: 1.1em;
+	text-align: center;
+}
+.approvalContainer{
+}
+.numOfInterest{
+	font-size: 2.8em;
+}
+hr {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+  border-style: solid none;
+  border-width: 2px 0;
+  margin: 18px 0;
+}
+.container{
+	padding:0;
+}
+.movieContainer{
+	display: flex;
+}
+.movieContainer img{
+	padding-top:10px;
+}
+.movieInfo{
+	padding: 10px;
+}
+.movieTitle{
+	font-size: 2.6em;
+}
+.movieTile{
+	text-align: center;
+	margin: 10px 0;
+}
+.image{
+	position: relative;
+	width: auto;
+	height: 250px;
+	border-radius: 5px;
+	margin:0 auto;
+}
+.image:after {
+    content: '\A';
+    position: absolute;
+    width: 100%; height:100%;
+    top:0; left:0;
+    background:rgba(0,0,0,0.6);
+    opacity: 0;
+    transition: all 0.5s;
+	border-radius: 5px;
+
+}
+.image img{
+	border-radius: 5px;
+}
+.image:hover:after {
+    opacity: 1;
+	border-radius: 5px;
+
+}
