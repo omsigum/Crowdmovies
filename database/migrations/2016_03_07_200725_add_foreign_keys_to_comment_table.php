@@ -15,7 +15,7 @@ class AddForeignKeysToCommentTable extends Migration {
 		Schema::table('comment', function(Blueprint $table)
 		{
 			$table->foreign('submissionID', 'comment_ibfk_1')->references('ID')->on('submission')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('userID', 'comment_ibfk_2')->references('ID')->on('user')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+			// $table->foreign('userID', 'comment_ibfk_2')->references('ID')->on('user')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 

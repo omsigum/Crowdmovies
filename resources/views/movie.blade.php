@@ -3,7 +3,6 @@
 @section('content')
 <div class="headerImage" style="background-image: url('{{ $movies -> banner }}');">
 	<div class="overlay">
-
 	</div>
 </div>
 <div class="container">
@@ -39,7 +38,19 @@
 			</div>
 			<div id="comments" class="tab-pane fade">
 				<h3>Comments</h3>
-				<p>Here users will be able to post comments 'n stuff</p>
+						<!-- All of the comments in a li-->
+						<!-- If the user has not logged in then show some shit. Else render the add comment button. -->
+						<ul id="commentscontainer">
+
+						</ul>
+						@if (Auth::guest())
+							<p>
+								Comments cn only be posted once logged in.
+							</p>
+						@else
+							<input type="text" placeholder="Comment" id="commentcontent">
+							<button type="button"id="addcomment" name="button">Add comment</button>
+						@endif
 			</div>
 			<div id="updates" class="tab-pane fade">
 				<h3>Updates</h3>
@@ -71,12 +82,11 @@
 		<hr>
 	</div>
 <div class="padding"></div>
-@endsection
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript">
 	var movie = {};
 	$.getJSON('http://www.omdbapi.com/?i=<?php echo $movies -> IMDB ?>&plot=long&r=json', function(data) {
-		console.log(data);
 		$('.overlay').text(data.Title);
 		$('.movieDescription').text(data.Plot);
 		$('.movieCast').text(data.Actors);
@@ -84,3 +94,49 @@
 		$('.movieTitle').text(data.Title);
 	});
 </script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			// fetch the like user data and like stuff u know. only enable the submission if the user is logged in.
+			var appendelement = $('#commentscontainer');
+			var submissionID = '{{ $movies -> ID }}';
+			console.log(submissionID);
+			// fetch the comments
+			$.ajax({
+		  	type: "POST",
+		  	url: '/api/fetchcomments',
+		  	data: {
+					submissionID: submissionID
+					}
+				}).done(function(data){
+					console.log(data);
+					var comments = data;
+					var output ="";
+					for (var i = 0; i < comments.length; i++) {
+						output += "<li class=\"comment\">" + comments[i].content + "<span>"+comments[i].name+"</span></li>";
+					}
+					appendelement.append(output);
+				});
+
+				// check if the add comment button is pushed
+				$('#addcomment').on('click',function(){
+					// the fetch movie needs submissionID api_token and the conent.
+					var content = $('#commentcontent').text();
+					var api_token = 'unknown';
+					console.log(api_token);
+					$.ajax({
+				  	type: "POST",
+				  	url: '/api/addcomment',
+				  	data: {
+							submissionID: submissionID,
+							content: content,
+							api_token: api_token
+							}
+						}).done(function(data){
+								// here is done
+
+						});
+				})
+
+		})
+</script>
+@endsection
