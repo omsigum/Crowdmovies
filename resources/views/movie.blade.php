@@ -45,7 +45,7 @@
 						</ul>
 						@if (Auth::guest())
 							<p>
-								Comments cn only be posted once logged in.
+								Comments can only be posted once logged in.
 							</p>
 						@else
 							<input type="text" placeholder="Comment" id="commentcontent">
@@ -101,28 +101,29 @@
 			var submissionID = '{{ $movies -> ID }}';
 			console.log(submissionID);
 			// fetch the comments
-			$.ajax({
-		  	type: "POST",
-		  	url: '/api/fetchcomments',
-		  	data: {
-					submissionID: submissionID
-					}
-				}).done(function(data){
-					console.log(data);
-					var comments = data;
-					var output ="";
-					for (var i = 0; i < comments.length; i++) {
-						output += "<li class=\"comment\">" + comments[i].content + "<span>"+comments[i].name+"</span></li>";
-					}
-					appendelement.append(output);
-				});
+			var fetchcomments = function(){
+				$.ajax({
+					type: "POST",
+					url: '/api/fetchcomments',
+					data: {
+						submissionID: submissionID
+						}
+					}).done(function(data){
+						var comments = data;
+						var output = "";
+						for (var i = 0; i < comments.length; i++) {
+							output += "<li class=\"comment\">" + comments[i].content + "<span>"+comments[i].name+"</span></li>";
+						}
+						appendelement.html(output);
+					});
+			};
 
 				// check if the add comment button is pushed
 				$('#addcomment').on('click',function(){
 					// the fetch movie needs submissionID api_token and the conent.
-					var content = $('#commentcontent').text();
-					var api_token = 'unknown';
-					console.log(api_token);
+					var content = $('#commentcontent').val();
+					console.log(content);
+					var api_token = '{{ $movies -> api_token }}'
 					$.ajax({
 				  	type: "POST",
 				  	url: '/api/addcomment',
@@ -133,10 +134,11 @@
 							}
 						}).done(function(data){
 								// here is done
-
+								console.log(data);
+								fetchcomments();
 						});
 				})
-
+				fetchcomments();
 		})
 </script>
 @endsection

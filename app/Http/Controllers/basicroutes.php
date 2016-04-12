@@ -17,17 +17,24 @@ class basicroutes extends Controller
       -> where('IMDB', $id)-> get();
       // make temp be = to the first column that the query returns.
       $temp = $movies[0];
-      $api_token['api_token']= "not logged in";
       if ($id = Auth::id()) {
         // the user is logged in and can comment.
         $api_token = DB::table('users') -> select('api_token') -> where('id' , $id) -> get();
         $api_token = $api_token[0];
+        $temp -> api_token = $api_token -> api_token;
+      }
+      else {
+            $temp -> api_token = "not logged in";
       }
     	return View('movie') -> with('movies', $temp);
-      // return json_encode($temp);
+       //return json_encode($temp);
     }
     public function welcome(){
-    	$movies = DB::table('submission') -> select('moviename as name','posterUrl', 'imdbRating','ID','IMDB','banner') -> get();
+    	$movies = DB::table('submission') -> select('moviename as name','posterUrl','imdbRating','ID','IMDB','banner') -> get();
     	return view('welcome') -> with('movies', $movies);
+    }
+    public function usersettings(){
+      $id = Auth::id();
+      return view('pages.usersettings');
     }
 }

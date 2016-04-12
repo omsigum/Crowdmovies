@@ -5,6 +5,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/addmovie','HomeController@serveaddmovie');
     Route::get('/','basicroutes@welcome');
     Route::get('/movie/{id}', 'basicroutes@specificmovie');
+    Route::get('/settings', 'basicroutes@usersettings');
     // Route::get('/home', 'HomeController@index');
 });
 Route::group(['middleware' => 'web'], function () {
