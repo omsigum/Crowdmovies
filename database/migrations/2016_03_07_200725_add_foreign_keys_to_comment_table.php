@@ -30,7 +30,7 @@ class AddForeignKeysToCommentTable extends Migration {
 		Schema::table('comment', function(Blueprint $table)
 		{
 			$table->dropForeign('comment_ibfk_1');
-			$table->dropForeign('comment_ibfk_2');
+			// $table->dropForeign('comment_ibfk_2');
 		});
 	}
 

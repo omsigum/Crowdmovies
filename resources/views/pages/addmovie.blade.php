@@ -11,7 +11,6 @@
                     <form action="api/addmovie" method="POST">
                         <h1>Add a movie</h1>
                         <input type="text" id="link" placeholder="imdb link" required>
-                        <input type="text" id="api_token" value="{{ $api_token }}" style="display:none;">
                         <input type="text" id="auto" name="name" placeholder="serach for movie">
                     </form>
                     <button class="btn btn-primary" id="addmovie">Add the movie</button>
@@ -23,6 +22,8 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+          var api_token = '{{ $api_token }}';
+          console.log(api_token);
           var availableTags = [];
           $('#auto').on('keydown',function(){
             // get the movies that match the search params the user provided
@@ -32,7 +33,6 @@
               $.ajax({
                   type: "GET",
                   url: "http://www.omdbapi.com/?s="+ text +"&y=&plot=short&r=json",
-                  data: {'link': $('#link').val(), 'api_token': $('#api_token').val()},
                   success:  function(data){
                       console.log(data);
                       var thing = data['Search'];
@@ -59,7 +59,7 @@
           $.ajax({
               type: "POST",
               url: "api/addmovie",
-              data: {'link': $('#link').val(), 'api_token': $('#api_token').val()},
+              data: {link: $('#link').val(), api_token: api_token},
               success:  function(data){
                   console.log(data);
                   if (data == 1) {

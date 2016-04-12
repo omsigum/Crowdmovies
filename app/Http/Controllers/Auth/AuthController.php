@@ -20,7 +20,7 @@ class AuthController extends Controller
     | a simple trait to add these behaviors. Why don't you explore it?
     |
     */
-
+    protected $username = 'username';
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
@@ -66,11 +66,11 @@ class AuthController extends Controller
         // create an api_token and a remember_token
         $api_token = "";
         $allowedchars = "qwertyuiopasdfghjklzxcvbnm1234567890";
-        for ($i=0; $i < 60; $i++) { 
+        for ($i=0; $i < 60; $i++) {
             $api_token = $api_token . $allowedchars[rand(0,strlen($allowedchars)- 1)];
         }
         $remember_token = "";
-        for ($i=0; $i < 100; $i++) { 
+        for ($i=0; $i < 100; $i++) {
             $remember_token = $remember_token . $allowedchars[rand(0, strlen($allowedchars) -1)];
         }
         // now api_token contains a random string.
@@ -79,7 +79,8 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'api_token' => $api_token,
-            'remember_token' => $remember_token
+            'remember_token' => $remember_token,
+            'username' => $data['username']
         ]);
     }
 }

@@ -34,7 +34,13 @@ class basicroutes extends Controller
     	return view('welcome') -> with('movies', $movies);
     }
     public function usersettings(){
-      $id = Auth::id();
-      return view('pages.usersettings');
+      $user = Auth::guard('web') -> user();
+      $api_token = $user -> api_token;
+      return view('pages.usersettings') -> with('api_token',$api_token);
+    }
+    public function serveaddmovie(){
+        $user = Auth::guard('web') -> user();
+        $api_token = $user -> api_token;
+        return view('pages.addmovie') -> with('api_token',$api_token);
     }
 }
