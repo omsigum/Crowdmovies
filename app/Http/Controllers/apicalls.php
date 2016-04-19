@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Auth;
 use Hash;
-
+use App\comment;
 class apicalls extends Controller
 {
 	public function addmovie(Request $request){
@@ -71,19 +71,38 @@ class apicalls extends Controller
 	public function addcomment(Request $request){
 		$input = $request -> all();
 		$user = Auth::guard('api') -> user();
-		$userid = $user -> id();
-		DB::table('comment')->insert([['userID' => $userid, 'content' => $input['content'], 'submissionID' => $input['submissionID']]]);
+		$userid = $user -> id;
+		$comment = new comment;
+		$comment -> content = $input['content'];
+		$comment -> userID = $userid;
+		$comment -> submissionID = $input['submissionID'];
+		$comment -> id = Uuid::uuid1();
+		$comment -> save();
 		return 1;
 	}
 	public function fetchcomments(Request $request){
-		// get like the data from like the user u know
 		$input = $request -> all();
-		$comments = DB::table('comment')
-		->join('users', 'users.id', '=', 'comment.userID')
-		->select('content','userID','name')
-		->where('submissionID', $input['submissionID'])
-		-> get();
-		return $comments;
+		$comment = comment::where('submissionID', $input['submissionID'])
+               ->orderBy('created_at', 'desc')
+               ->get();
+		return $comment;
+	}
+	public function editcomment(Request $request){
+		$input = $request -> all();
+		// check if the user owns the comment
+		$user = Auth::guard('api') -> user();
+		// this method needs api_token, commentID, newcontent
+		$comment = comment::where('id', $input['commentid']) -> first();
+		if ($comment -> userID == $user -> id) {
+			// the user owns the comment
+			$comment -> content = $input['content'];
+			$comment -> save();
+			return "1";
+		}
+		else {
+			// the user does not own the comment and cannot edit it
+			return "Not the owner ofthe comment";
+		}
 	}
 	public function changeuserpassword(Request $request){
 		$input = $request -> all();

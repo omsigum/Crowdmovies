@@ -55,11 +55,12 @@
             }
           })
           $('#addmovie').on('click', function(){
-              // send the freaking data to the api with the token so that evryone is happy
+            var link = $('#link').val();
+            $('#link').val('');
           $.ajax({
               type: "POST",
               url: "api/addmovie",
-              data: {link: $('#link').val(), api_token: api_token},
+              data: {link: link, api_token: api_token},
               success:  function(data){
                   console.log(data);
                   if (data == 1) {

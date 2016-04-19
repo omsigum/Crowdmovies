@@ -17,6 +17,9 @@ class CreateCommentTable extends Migration {
 			$table->char('submissionID', 36)->index('submissionID');
 			$table->char('userID', 36)->index('userID');
 			$table->text('content');
+			$table->char('id' , 36) -> unique();
+			$table->timestamp('created_at');
+			$table->timestamp('updated_at');
 		});
 	}
 

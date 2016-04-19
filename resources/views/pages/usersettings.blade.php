@@ -27,7 +27,7 @@ This page is like for settings and stuff. Jeee
   $( document ).ready(function(){
     var api_token = '{{ $api_token }}';
     $('#changepassbutton').on('click',function(){
-      $.ajax({
+      $.ajax({Request for package information failed: atom.io is temporarily unavailable, please try again later.
         type: "POST",
         url: '/api/changeuserpassword',
         data: {
