@@ -20,7 +20,7 @@ class AuthController extends Controller
     | a simple trait to add these behaviors. Why don't you explore it?
     |
     */
-    protected $username = 'username';
+
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
@@ -82,5 +82,15 @@ class AuthController extends Controller
             'remember_token' => $remember_token,
             'username' => $data['username']
         ]);
+    }
+    public function isAdmin(){
+      // get the user from Auth if the user has state = 1 then he gets through. else not.
+      $user = Auth::guard('web') -> user();
+      if ($user -> state != 1) {
+        return 0;
+      }
+      else {
+        return 1;
+      }
     }
 }

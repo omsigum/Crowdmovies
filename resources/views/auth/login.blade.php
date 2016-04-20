@@ -11,10 +11,10 @@
                         {!! csrf_field() !!}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Username</label>
+                            <label class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="username" value="{{ old('email') }}">
+                                <input type="text" class="form-control" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">

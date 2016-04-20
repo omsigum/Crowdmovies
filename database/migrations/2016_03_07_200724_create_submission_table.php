@@ -25,6 +25,8 @@ class CreateSubmissionTable extends Migration {
 			$table->string('posterUrl');
 			$table->string('imdbRating');
 			$table->string('banner');
+			$table->timestamp('updated_at');
+			$table->timestamp('created_at');
 		});
 	}
 

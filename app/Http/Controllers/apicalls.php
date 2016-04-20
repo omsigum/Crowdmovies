@@ -11,39 +11,36 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Auth;
 use Hash;
 use App\comment;
+use App\submission;
+
 class apicalls extends Controller
 {
 	public function addmovie(Request $request){
 		$input = $request -> all();
-		$userid = DB::table('users')->where('api_token', $input['api_token'])->value('ID'); // i dont even have a clue how to get this
-		$imdblink = $input['link']; // it could be some response like $_POST['imdb']; but no... let's not do that
-		$oldletter = "";
-		$index = 0;
-		$idfound = false;
-		for ($i=0; $i < strlen($imdblink); $i++) {
-			if ($oldletter == $imdblink[$i] && $oldletter == "t" && is_numeric($imdblink[$i + 1])) {
-				// if there are two t's in a row then set the index of t to i -1 and substr 9 up.
-				$index = $i - 1;
-				$idfound = true;
-				break;
-			}
-			$oldletter = $imdblink[$i];
-		}
-		if ($idfound) {
-			$output = substr($imdblink, $index, 9);
+		$user = Auth::guard('api') -> user();
+		$userid = $user -> id;
+		$output = submission::findidmbid($input['link']);
+		if (isset($output)) {
 			$uuid = Uuid::uuid1();
 			$client = new HttpClient;
-			$response = $client->get('http://www.omdbapi.com/?i='.$output.'&tomatoes=true');
+			$jsonresponse = $client->get('http://www.omdbapi.com/?i='.$output.'&tomatoes=true') -> json();
 			$client = new HttpClient;
-			$response2 = $client->get('http://api.themoviedb.org/3/find/'.$output.'?external_source=imdb_id&api_key=5d81354b9914da922744f60e566d30b0');
-			if (isset($response) && isset($response)) {
-				$jsonresponse2 = $response2->json();
-				$jsonresponse = $response->json();
+			$bannerobject = $client->get('http://api.themoviedb.org/3/find/'.$output.'?external_source=imdb_id&api_key=5d81354b9914da922744f60e566d30b0') -> json();
+			$banner = 'http://image.tmdb.org/t/p/w500/'. $bannerobject -> movie_results[0] -> backdrop_path;
+			if (submission::IMDBidvalid($output) != 1) {
+				return "movie exists";
+			}
+			if (isset($jsonresponse)) {
 				if ($jsonresponse -> Response == 'True') {
-					$banner = 'http://image.tmdb.org/t/p/w500/'. $jsonresponse2 -> movie_results[0] -> backdrop_path;
-					DB::table('submission')->insert([ // okei okei, he is like just inserting you know
-			    	['userID' => $userid, 'IMDB' => $output, 'ID' => $uuid, 'moviename' => $jsonresponse -> Title, 'posterUrl' => $jsonresponse -> Poster, 'imdbRating' => $jsonresponse -> imdbRating, 'banner' => $banner] // that is not code i have ever seen before...
-					]);
+					$movie = new submission;
+					$movie -> userID = $userid;
+					$movie -> IMDB = $output;
+					$movie -> id = $uuid;
+					$movie -> moviename = $jsonresponse -> Title;
+					$movie -> posterUrl = $jsonresponse -> Poster;
+					$movie -> imdbRating = $jsonresponse -> imdbRating;
+					$movie -> banner = $banner;
+					$movie -> save();
 					return 1;
 				}
 				else{
@@ -59,12 +56,15 @@ class apicalls extends Controller
 			return '{"sucess":"false","ex":"Movie id not found in string"}';
 		}
 	}
+
 	public function deletemovie(){
 
 	}
+
 	public function approvemovie(){
 
 	}
+
 	public function fetchmovies(){
 		return json_encode(DB::table('submission') -> select('moviename as name','posterUrl', 'imdbRating','ID','IMDB') -> get());
 	}
@@ -139,4 +139,5 @@ class apicalls extends Controller
 		$user -> save();
 		return 1;
 	}
+
 }

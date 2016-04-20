@@ -55,6 +55,11 @@
 			<div id="updates" class="tab-pane fade">
 				<h3>Updates</h3>
 				<p>If we have a problem, or if any important information regarding the movie comes to light, it will be accessible here.</p>
+				@if(Auth::isAdmin())
+				<input type="text" id="updatetitle" placeholder="The Title">
+				<input type="text" id="updatecontent" placeholder="The content....">
+				<button type="button" id="updatebutton"name="button">Add updates</button>
+				@endif
 			</div>
 		</div>
 	</div>

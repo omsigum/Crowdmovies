@@ -1,5 +1,4 @@
 <?php
-
 Route::group(['middleware' => 'web'], function () {
       Route::get('/addmovie','basicroutes@serveaddmovie');
       Route::get('/','basicroutes@welcome');
@@ -11,7 +10,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/','basicroutes@welcome');
     Route::get('/movie/{id}', 'basicroutes@specificmovie');
 });
-//Route::get('/','basicroutes@welcome');
 Route::group(['prefix' => 'api/', 'middleware' => 'auth:api'], function(){
 	Route::post('addmovie', 'apicalls@addmovie');
   Route::post('addcomment','apicalls@addcomment');
@@ -22,9 +20,9 @@ Route::group(['prefix' => 'api/', 'middleware' => 'auth:api'], function(){
   Route::post('changeusername','apicalls@changeusername');
   Route::post('editcomment','apicalls@editcomment');
 });
-// Administrator route groups
-Route::group(['prefix' => 'admin/', 'middleware' => ['web','admin']], function(){
-  Route::get('login', 'adminroutes@login');
+// Administrator api routes.
+Route::group(['prefix' => 'admin/', 'middleware' => ['auth:api','admin']], function(){
+  Route::post('addupdate','adminroutes@addupdate');
 });
 // publically available api fetches
 Route::post('api/fetchmovies','apicalls@fetchmovies');

@@ -17,6 +17,8 @@ class CreateUpdatesTable extends Migration {
 			$table->string('title')->nullable();
 			$table->char('submissionID', 36)->index('submissionID');
 			$table->text('content');
+			$table->timestamp('created_at');
+			$table->timestamp('updated_at');
 		});
 	}
 
