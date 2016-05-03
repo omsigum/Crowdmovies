@@ -12,6 +12,8 @@ use Auth;
 use Hash;
 use App\comment;
 use App\submission;
+use App\intrest;
+use Mail;
 
 class apicalls extends Controller
 {
@@ -139,5 +141,28 @@ class apicalls extends Controller
 		$user -> save();
 		return 1;
 	}
-
+	public function showintrest(Request $request){
+		$input = $request -> all();
+		$user = Auth::guard('api') -> user();
+		$intrest = new intrest;
+		$intrest -> userID = $user -> id;
+		$intrest -> submissionID  = $input['submissionID'];
+		$intrest -> save();
+		// check if the movie is at a point where it can be moved to the approval process.
+		$themovie = intrest::where('submissionID', $input['submissionID']) -> count();
+		if ($themovie >= 150) {
+			$movie = submission::where('submissionID',$input['submissionID']) -> get();
+			$movie -> status = 1;
+			$movie -> save();
+			// email all admins that a movie is in a approval state
+			$user = User::where('state', 1);
+			foreach ($user as $key) {
+				Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+						$m->from('crwd@crwd.is', 'Crowdmovies');
+						$m->to($user->email, $user->name)->subject('Movie in approval state');
+				});
+			}
+		}
+		return 1;
+	}
 }

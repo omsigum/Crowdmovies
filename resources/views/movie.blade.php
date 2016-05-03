@@ -68,13 +68,24 @@
 		<hr>
 		<div class="interestContainer">
 			<div class="numOfInterest">
-				149/150
+				{{ $movies -> numberofpintrested }}/150
 			</div>
 			<span style="font-size: 1.4em;">supporters</span>
+			@if(Auth::isintrested($movies -> ID))
+				<p>
+					You have already shown support for this movie
+				</p>
+			@else
+			<button type="button" name="button" id="showsupport">Show support for this movie</button>
+			@endif
 		</div>
 		<hr>
 		<div class="approvalContainer">
+			@if(Auth::isinapproval($movies -> ID))
+			The movie is in a approval state. hang tight
+			@else
 			More interest is needed to trigger the approval process
+			@endif
 			<br>
 			<br>
 			You can help gather interest by sharing on facebook
@@ -104,7 +115,7 @@
 			// fetch the like user data and like stuff u know. only enable the submission if the user is logged in.
 			var appendelement = $('#commentscontainer');
 			var submissionID = '{{ $movies -> ID }}';
-			console.log(submissionID);
+			var api_token = '{{ $movies -> api_token }}';
 			// fetch the comments
 			var fetchcomments = function(){
 				$.ajax({
@@ -128,7 +139,6 @@
 					// the fetch movie needs submissionID api_token and the conent.
 					var content = $('#commentcontent').val();
 					console.log(content);
-					var api_token = '{{ $movies -> api_token }}'
 					$.ajax({
 				  	type: "POST",
 				  	url: '/api/addcomment',
@@ -144,6 +154,20 @@
 						});
 				})
 				fetchcomments();
+				$('#showsupport').on('click',function(){
+					$.ajax({
+				  	type: "POST",
+				  	url: '/api/showintrest',
+				  	data: {
+							submissionID: submissionID,
+							api_token: api_token
+							}
+						}).done(function(data){
+								// here is done
+								alert('Thanks for showing your support');
+								location.reload();
+						});
+				});
 		})
 </script>
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Http\Requests;
 use Auth;
+use App\intrest;
 class basicroutes extends Controller
 {
     public function specificmovie($id){
@@ -15,8 +16,9 @@ class basicroutes extends Controller
       $movies = DB::table('submission')
       -> select('banner','ID','IMDB')
       -> where('IMDB', $id)-> get();
-      // make temp be = to the first column that the query returns.
+      // make temp be = to the first column that the query return
       $temp = $movies[0];
+      $temp -> numberofpintrested = intrest::where('submissionID', $temp -> ID)->count();
       if ($id = Auth::id()) {
         // the user is logged in and can comment.
         $api_token = DB::table('users') -> select('api_token') -> where('id' , $id) -> get();

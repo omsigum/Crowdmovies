@@ -19,6 +19,7 @@ Route::group(['prefix' => 'api/', 'middleware' => 'auth:api'], function(){
   Route::post('changeusersname', 'apicalls@changeusersname');
   Route::post('changeusername','apicalls@changeusername');
   Route::post('editcomment','apicalls@editcomment');
+  Route::post('showintrest','apicalls@showintrest');
 });
 // Administrator api routes.
 Route::group(['prefix' => 'admin/', 'middleware' => ['auth:api','admin']], function(){

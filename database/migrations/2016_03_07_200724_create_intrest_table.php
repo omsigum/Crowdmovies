@@ -16,8 +16,9 @@ class CreateIntrestTable extends Migration {
 		{
 			$table->char('userID', 36);
 			$table->char('submissionID', 36)->index('submissionID');
-			$table->timestamp('intresttime')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->primary(['userID','submissionID']);
+			$table->timestamp('updated_at');
+			$table->timestamp('created_at');
 		});
 	}
 

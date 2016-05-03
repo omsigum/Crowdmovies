@@ -14,8 +14,6 @@ class AddForeignKeysToIntrestTable extends Migration {
 	{
 		Schema::table('intrest', function(Blueprint $table)
 		{
-			$table->foreign('submissionID', 'intrest_ibfk_1')->references('ID')->on('submission')->onUpdate('RESTRICT')->onDelete('RESTRICT');
-			$table->foreign('userID', 'intrest_ibfk_2')->references('ID')->on('user')->onUpdate('RESTRICT')->onDelete('RESTRICT');
 		});
 	}
 
@@ -29,8 +27,6 @@ class AddForeignKeysToIntrestTable extends Migration {
 	{
 		Schema::table('intrest', function(Blueprint $table)
 		{
-			$table->dropForeign('intrest_ibfk_1');
-			$table->dropForeign('intrest_ibfk_2');
 		});
 	}
 
