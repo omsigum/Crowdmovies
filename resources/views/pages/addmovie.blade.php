@@ -8,12 +8,13 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    <form action="api/addmovie" method="POST">
+                    <form action="api/addmovie" method="POST" class="form-group">
                         <h1>Add a movie</h1>
-                        <input type="text" id="link" placeholder="imdb link" required>
-                        <input type="text" id="auto" name="name" placeholder="serach for movie">
+                        <input type="text" id="link" placeholder="Insert direct link to IMDb" required class="form-control">
+                        <br>
+                        <input type="text" id="auto" name="name" placeholder="Search for a film" class="form-control">
                     </form>
-                    <button class="btn btn-primary" id="addmovie">Add the movie</button>
+                    <button class="btn btn-default" id="addmovie">Add the movie</button>
                 </div>
             </div>
         </div>
