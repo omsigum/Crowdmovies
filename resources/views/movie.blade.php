@@ -48,8 +48,10 @@
 								Comments can only be posted once logged in.
 							</p>
 						@else
-							<input type="text" placeholder="Comment" id="commentcontent">
-							<button type="button"id="addcomment" name="button">Add comment</button>
+							<div class="form-group">
+								<textarea placeholder="What do you have to say?" id="commentcontent" class="form-control" rows="4"></textarea>
+								<button type="button"id="addcomment" name="button" class="btn btn-default" >Add comment</button>
+							</div>
 						@endif
 			</div>
 			<div id="updates" class="tab-pane fade">

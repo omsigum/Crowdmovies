@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
     <?php foreach ($movies as $key) {
-        $otput = '<a href="/movie/'.$key -> IMDB.'"><div class="movieTile col-md-3"><div class="image"><img src="'.$key -> posterUrl.'"><span class="imdbrating">'.$key -> imdbRating.'<img src="/img/imdb.png" \></span><rt></rt></div></div></a>';
+        $otput = '<a href="/movie/'.$key -> IMDB.'"><div class="movieTile col-md-3"><div class="image"><img src="'.$key -> posterUrl.'"><span class="imdbrating">'.$key -> imdbRating.'<img src="/img/IMDb_Logo.png" \></span><rt></rt></div></div></a>';
         echo $otput;
     } ?>
         </div>

@@ -1,27 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-This page is like for settings and stuff. Jeee
-<div class="">
- Password Change
- <input type="password" id="oldpass"name="oldpass" value="">
- <input type="password" id="newpass"name="newpass" value="">
- <button type="button" id="changepassbutton"name="button">Breyta lykilorði</button>
-</div>
-<div class="">
- Name change
- <input type="text" id="name" name="name" value="">
-  <button type="button" id="chaneusersname"name="button">Breyta Nafni</button>
-</div>
-<div class="">
-  username change
-  <input type="text" id="username"name="username" value="">
-   <button type="button" id="changeusername"name="button">change username</button>
-</div>
-<div class="">
-  email change
-<input type="email" id="email" name="email" value="">
- <button type="button" id="changeemailbutton"name="button">change email</button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">Edit your settings</div>
+
+                <div class="panel-body">
+                    <div class="form-group">
+                        <h3>Change your password:</h3>
+                        <input type="password" id="oldpass"name="oldpass" value="" class="form-control">
+                        <br>
+                        <input type="password" id="newpass"name="newpass" value="" class="form-control">
+                        <br>
+                        <button type="button" id="changepassbutton"name="button" class="btn btn-default">Breyta lykilorði</button>
+                    </div>
+                    <div class="form-group">
+                        <h3>Change your name:</h3>
+                        <input type="text" id="name" name="name" value="" class="form-control">
+                        <br>
+                        <button type="button" id="chaneusersname"name="button" class="btn btn-default">Breyta Nafni</button>
+                    </div>
+                    <div class="form-group">
+                        <h3>Change your username</h3>
+                        <input type="text" id="username"name="username" value="" class="form-control">
+                        <br>
+                        <button type="button" id="changeusername"name="button" class="btn btn-default">change username</button>
+                    </div>
+                    <div class="form-group">
+                        <h3>Change your email</h3>
+                        <input type="email" id="email" name="email" value="" class="form-control">
+                        <br>
+                        <button type="button" id="changeemailbutton"name="button" class="btn btn-default">change email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
   $( document ).ready(function(){
