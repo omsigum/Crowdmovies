@@ -78,7 +78,13 @@
 					You have already shown support for this movie
 				</p>
 			@else
-			<button type="button" name="button" id="showsupport">Show support for this movie</button>
+				@if(Auth::guest())
+					<p>
+						Login to show support.
+					</p>
+				@else
+						<button type="button" name="button" id="showsupport">Show support for this movie</button>
+				@endif
 			@endif
 		</div>
 		<hr>

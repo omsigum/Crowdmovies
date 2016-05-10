@@ -5865,18 +5865,23 @@ hr {
   opacity: 1; }
 
 .image .imdbrating {
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 50%;
+  left: 50%;
   color: white;
-  font-size: 25px;
+  font-size: 3em;
   z-index: 10;
-  opacity: 0; }
+  opacity: 0;
+  font-family: Roboto;
+  font-weight: 120; }
 
 .image .imdbrating img {
-  width: 60px;
-  max-height: 30px;
-  padding: 0 0 10px 5px; }
+  width: 80px;
+  height: auto;
+  padding: 0 0 10px 5px;
+  display: block; }
 
 .image .moviename {
   position: absolute;
@@ -5898,5 +5903,11 @@ hr {
     opacity: 0; }
   to {
     opacity: 1; } }
+
+#commentcontent {
+  max-width: 500px; }
+
+#addcomment {
+  margin-top: 10px; }
 
 /*# sourceMappingURL=app.css.map */

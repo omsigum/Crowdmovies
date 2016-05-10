@@ -1,14 +1,15 @@
 <?php
+
 Route::group(['middleware' => 'web'], function () {
-      Route::get('/addmovie','basicroutes@serveaddmovie');
+      Route::auth();
+
       Route::get('/','basicroutes@welcome');
+      Route::get('/home','basicroutes@welcome');
       Route::get('/movie/{id}', 'basicroutes@specificmovie');
       Route::get('/settings', 'basicroutes@usersettings');
 });
-Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-    Route::get('/','basicroutes@welcome');
-    Route::get('/movie/{id}', 'basicroutes@specificmovie');
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/addmovie','basicroutes@serveaddmovie');
 });
 Route::group(['prefix' => 'api/', 'middleware' => 'auth:api'], function(){
 	Route::post('addmovie', 'apicalls@addmovie');

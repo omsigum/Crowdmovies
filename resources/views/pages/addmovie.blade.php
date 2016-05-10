@@ -36,21 +36,17 @@
                   url: "http://www.omdbapi.com/?s="+ text +"&y=&plot=short&r=json",
                   success:  function(data){
                       console.log(data);
-                      var thing = data['Search'];
-                      console.log(thing);
-                      availableTags = [];
-                      if (availableTags.length == 1) {
-                        // the user has found the movie
-                        $('#link').val(thing.imdbID);
-                        console.log(thing.imdbID);
+                      var response = data.Response;
+                      if (response) {
+                        var thing = data['Search'];
+                        console.log(thing);
+                        availableTags = [];
+                          for (var i = 0; i < thing.length; i++) {
+                            availableTags.push(thing[i].Title);
+                          }
+                        //console.log(availableTags);
+                        completetheauto(thing);
                       }
-                      else if(data.Response == "True") {
-                        for (var i = 0; i < thing.length; i++) {
-                          availableTags.push(thing[i].Title);
-                        }
-                      }
-                      console.log(availableTags);
-                      completetheauto();
                   },
                   });
             }
@@ -73,9 +69,17 @@
               },
               });
           });
-          var completetheauto = function(){
+          var completetheauto = function(imdblink){
             $( "#auto" ).autocomplete({
-            	source: availableTags
+            	source: availableTags,
+              select: function (e) {
+                console.log(e);
+                console.log(imdblink);
+                var thelink = imdblink[0].imdbID;
+                console.log(thelink);
+                $('#link').val(thelink);
+                return false;
+              },
             });
           }
         })

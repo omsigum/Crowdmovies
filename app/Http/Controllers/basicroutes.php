@@ -41,6 +41,10 @@ class basicroutes extends Controller
       return view('pages.usersettings') -> with('api_token',$api_token);
     }
     public function serveaddmovie(){
+      if (Auth::guest()) {
+        # redirect the user
+         return redirect('/login');
+      }
         $user = Auth::guard('web') -> user();
         $api_token = $user -> api_token;
         return view('pages.addmovie') -> with('api_token',$api_token);
